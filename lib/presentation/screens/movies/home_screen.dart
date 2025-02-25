@@ -40,17 +40,56 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final slideshowMovies = ref.watch(moviesSlideshowProvider);
 
-    return Column(
-      children: [
-        CustomAppbar(),
-        MoviesSlideshow(movies: slideshowMovies),
-        MovieHorizontalListview(
-          title: 'En Cines',
-          subTitle: 'Lunes 20',
-          movies: nowPlayingMovies,
-          loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          floating: true,
+          flexibleSpace: FlexibleSpaceBar(
+            title: CustomAppbar(),
+            titlePadding: EdgeInsets.zero,
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return Column(
+                children: [
+                  MoviesSlideshow(movies: slideshowMovies),
+                  MovieHorizontalListview(
+                    title: 'En Cines',
+                    subTitle: 'Lunes 20',
+                    movies: nowPlayingMovies,
+                    loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+                  ),
+              
+                  MovieHorizontalListview(
+                    title: 'Proximamente',
+                    subTitle: 'En este mes',
+                    movies: nowPlayingMovies,
+                    loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+                  ),
+              
+                  MovieHorizontalListview(
+                    title: 'Populares',
+                    movies: nowPlayingMovies,
+                    loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+                  ),
+              
+                  MovieHorizontalListview(
+                    title: 'Mejor Calificadas',
+                    subTitle: 'De todos los tiempos',
+                    movies: nowPlayingMovies,
+                    loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+                  ),
+
+                  SizedBox(height: 20)
+                ],
+              );
+            },
+            childCount: 1
+          )
         )
-      ],
+      ]
     );
   }
 }

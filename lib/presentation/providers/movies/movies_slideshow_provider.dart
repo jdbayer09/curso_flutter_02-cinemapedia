@@ -9,5 +9,5 @@ final moviesSlideshowProvider = Provider<List<Movie>>((ref) {
     return [];
   }
 
-  return nowPlayingMovies.sublist(0,6);
+  return nowPlayingMovies.sublist(0,10);
 });
